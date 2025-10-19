@@ -101,7 +101,11 @@ uint8_t Adafruit_MAX17048::getChipID(void) {
  *    @return True if the MAX1704x is ready to be read from
  */
 bool Adafruit_MAX17048::isDeviceReady(void) {
-  return (getICversion() & 0xFFF0) == 0x0010;
+  // return (getICversion() & 0xFFF0) == 0x0010;
+  
+  // Version 0xFFFF indicates no battery attached
+  // Accept any other version (0x0003, 0x001X, etc. are all valid production versions)
+  return (getICversion() != 0xFFFF);
 }
 
 /*!
