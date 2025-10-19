@@ -1,3 +1,8 @@
+## ⚠️ Fork Fix Applied
+**Bug Fixed**: `isDeviceReady()` now accepts all valid MAX17048 chip versions (e.g., 0x0003), not just 0x001X range. Original code incorrectly rejected chips with version 0x0003 despite having working batteries. Fix: Check for `version != 0xFFFF` (no battery) instead of requiring specific version range.
+
+---
+
 Adafruit_MAX1704X [![Build Status](https://github.com/adafruit/Adafruit_MAX1704X/workflows/Arduino%20Library%20CI/badge.svg)](https://github.com/adafruit/Adafruit_MAX1704X/actions)[![Documentation](https://github.com/adafruit/ci-arduino/blob/master/assets/doxygen_badge.svg)](http://adafruit.github.io/Adafruit_MAX1704X/html/index.html)
 ================
 
