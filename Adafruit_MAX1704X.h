@@ -57,7 +57,7 @@ public:
   Adafruit_MAX17048();
   ~Adafruit_MAX17048();
 
-  bool begin(TwoWire *wire = &Wire);
+  bool begin(TwoWire *wire = &Wire, bool doReset = false);
   bool isDeviceReady(void);
 
   uint16_t getICversion(void);

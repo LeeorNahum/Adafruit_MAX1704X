@@ -47,7 +47,7 @@ Adafruit_MAX17048::~Adafruit_MAX17048(void) {}
  *            The Wire object to be used for I2C connections.
  *    @return True if initialization was successful, otherwise false.
  */
-bool Adafruit_MAX17048::begin(TwoWire *wire) {
+bool Adafruit_MAX17048::begin(TwoWire *wire, bool doReset) {
   if (i2c_dev) {
     delete i2c_dev; // remove old interface
     delete status_reg;
@@ -65,8 +65,10 @@ bool Adafruit_MAX17048::begin(TwoWire *wire) {
 
   status_reg = new Adafruit_BusIO_Register(i2c_dev, MAX1704X_STATUS_REG);
 
-  if (!reset()) {
-    return false;
+  if (doReset) {
+    if (!reset()) {
+      return false;
+    }
   }
 
   enableSleep(false);
