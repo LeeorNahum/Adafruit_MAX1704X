@@ -1,12 +1,11 @@
-## ⚠️ Fork Fix Applied
+## ⚠️ Fork Fixes Applied
 **Bug Fixed**: `isDeviceReady()` now accepts all valid MAX17048 chip versions (e.g., 0x0003), not just 0x001X range. Original code incorrectly rejected chips with version 0x0003 despite having working batteries. Fix: Check for `version != 0xFFFF` (no battery) instead of requiring specific version range.
 
-## Additional Fork Fix
+## Additional Fix Applied
 **`begin()` reset control**:
 - Signature is now: `bool begin(TwoWire *wire = &Wire, bool doReset = false);`
 - Default behavior does **not** issue a reset command during normal initialization.
 - `doReset = true` is available for intentional reset use cases only.
-- In the datasheet, the reset command is called **Power-On Reset (POR)**; this fork avoids triggering that command by default on every startup.
 
 ---
 
