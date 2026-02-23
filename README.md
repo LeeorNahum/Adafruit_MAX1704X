@@ -1,5 +1,12 @@
-## ⚠️ Fork Fix Applied
-**Bug Fixed**: `isDeviceReady()` now accepts all valid MAX17048 chip versions (e.g., 0x0003), not just 0x001X range. Original code incorrectly rejected chips with version 0x0003 despite having working batteries. Fix: Check for `version != 0xFFFF` (no battery) instead of requiring specific version range.
+## ⚠️ Fork Fixes Applied
+1. **`isDeviceReady()` compatibility fix**: accepts all valid MAX17048 chip versions (e.g., `0x0003`), not just `0x001X`.  
+   - Original code rejected some production chips despite valid battery readings.  
+   - Fix uses `version != 0xFFFF` to detect "no battery" instead of enforcing a narrow version mask.
+
+2. **`begin()` reset behavior fix**: `Adafruit_MAX17048::begin()` now supports `doReset` and defaults to **no reset**.  
+   - New signature: `bool begin(TwoWire *wire = &Wire, bool doReset = false);`  
+   - Default behavior preserves ModelGauge state across MCU restarts and deep-sleep wake cycles.  
+   - Pass `doReset = true` only when a deliberate POR is required.
 
 ---
 
