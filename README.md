@@ -1,11 +1,10 @@
-## ⚠️ Fork Fixes Applied
-**Bug Fixed**: `isDeviceReady()` now accepts all valid MAX17048 chip versions (e.g., 0x0003), not just 0x001X range. Original code incorrectly rejected chips with version 0x0003 despite having working batteries. Fix: Check for `version != 0xFFFF` (no battery) instead of requiring specific version range.
-
-## Additional Fix Applied
-**`begin()` reset control**:
-- Signature is now: `bool begin(TwoWire *wire = &Wire, bool doReset = false);`
-- Default behavior does **not** issue a reset command during normal initialization.
-- `doReset = true` is available for intentional reset use cases only.
+> # Fork: two bug fixes from the original Adafruit library
+>
+> **1. `isDeviceReady()`: overly strict version check**
+> The original code required the VERSION register (`0x08`) to match `0x001X`. The datasheet documents this register as simply "IC production version" and lists its default as `0x001_`, but never states that `0x001X` is the only valid production range. Chips with versions like `0x0003` are legitimate. The correct "no battery" sentinel is `0xFFFF`: since the IC is powered directly from the battery, a missing battery causes the I2C bus to float high. Fixed to check `version != 0xFFFF`.
+>
+> **2. `begin()`: unconditional Power-On Reset command**
+> The original `begin()` always wrote `0x5400` to the CMD register. The datasheet describes this as a command that "causes the device to completely reset as if power had been removed," and explicitly warns it should "only [be used] when the battery is fully relaxed" because it triggers a quick-start and restores all registers to their defaults. Calling it on every `begin()` unconditionally discards accumulated fuel gauge state. Fixed: `begin(wire, doReset = false)`, reset is now opt-in.
 
 ---
 
