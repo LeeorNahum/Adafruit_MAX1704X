@@ -1,12 +1,13 @@
-## ⚠️ Fork Fixes Applied
-1. **`isDeviceReady()` compatibility fix**: accepts all valid MAX17048 chip versions (e.g., `0x0003`), not just `0x001X`.  
-   - Original code rejected some production chips despite valid battery readings.  
-   - Fix uses `version != 0xFFFF` to detect "no battery" instead of enforcing a narrow version mask.
+## Fork-specific fixes
+1. **`isDeviceReady()` compatibility**
+   - Accepts all valid MAX17048 chip versions, including `0x0003`.
+   - Uses `version != 0xFFFF` to detect "no battery attached."
 
-2. **`begin()` reset behavior fix**: `Adafruit_MAX17048::begin()` now supports `doReset` and defaults to **no reset**.  
-   - New signature: `bool begin(TwoWire *wire = &Wire, bool doReset = false);`  
-   - Default behavior preserves ModelGauge state across MCU restarts and deep-sleep wake cycles.  
-   - Pass `doReset = true` only when a deliberate POR is required.
+2. **`begin()` reset control**
+   - Signature is now: `bool begin(TwoWire *wire = &Wire, bool doReset = false);`
+   - Default behavior does **not** issue a reset command during normal initialization.
+   - `doReset = true` is available for intentional reset use cases only.
+   - In the datasheet, the reset command is called **Power-On Reset (POR)**; this fork avoids triggering that command by default on every startup.
 
 ---
 
